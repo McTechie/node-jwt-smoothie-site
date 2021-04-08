@@ -51,7 +51,7 @@ module.exports.login_get = (req,res) => {
 
 module.exports.logout_get = (req,res) => {
     res.cookie('jwt', '', { maxAge: 1 });
-    res.render('/');
+    res.redirect('/');
 }
 
 module.exports.signup_post = async (req, res) => {

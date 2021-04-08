@@ -1,6 +1,7 @@
 // custom middleware to authenticate using jwt present in requests (stored in browser)
 
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
@@ -12,7 +13,7 @@ const requireAuth = (req, res, next) => {
                 console.log(err.message);
                 res.redirect('/login');
             } else {
-                console.log(decodedToken);
+                // console.log(decodedToken);
                 next();
             }
         })
@@ -32,7 +33,7 @@ const checkUser = (req, res, next) => {
                 res.locals.user = null;
                 next();
             } else {
-                console.log(decodedToken);
+                // console.log(decodedToken);
                 let user = await User.findById(decodedToken.id);
                 res.locals.user = user;
                 next();
