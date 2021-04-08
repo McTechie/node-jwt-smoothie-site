@@ -19,6 +19,13 @@ const userSchema = new mongoose.Schema({
 
 /* mongoose hooks */
 
+// hashing the password before saving to db
+userSchema.pre('save', async function (next) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
 // // fire a function after doc saved to db
 // userSchema.post('save', function (doc, next) {
 //     console.log('new user created & saved', doc);
@@ -30,14 +37,6 @@ const userSchema = new mongoose.Schema({
 //     console.log('user about to be created & saved', this);
 //     next();
 // });
-
-
-// hashing the password before saving to db
-userSchema.pre('save', async function (next) {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-});
 
 // creating a Model using the Collection name (singular) as first argument and Schema as the second argument
 const User = mongoose.model('user', userSchema);
