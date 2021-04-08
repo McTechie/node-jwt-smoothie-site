@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -16,7 +17,29 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-// Creating a Model using the Collection name (singular) as first argument and Schema as the second argument
+/* mongoose hooks */
+
+// // fire a function after doc saved to db
+// userSchema.post('save', function (doc, next) {
+//     console.log('new user created & saved', doc);
+//     next();
+// });
+
+// // fire a function before doc saved to db
+// userSchema.pre('save', function (next) {
+//     console.log('user about to be created & saved', this);
+//     next();
+// });
+
+
+// hashing the password before saving to db
+userSchema.pre('save', async function (next) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
+// creating a Model using the Collection name (singular) as first argument and Schema as the second argument
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
