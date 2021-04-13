@@ -1,6 +1,6 @@
 # Techie Smoothies
 
-> ✨ A McTechie creation 👨‍🎨
+> A McTechie creation 👨‍🎨✨
 
 ### Tech Used
 
